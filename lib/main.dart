@@ -1,65 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:github_flutter/GSYTabBarWidget.dart';
+import 'pages/error_page.dart';
+
+void collectLog(String line) {
+  // 收集日志
+}
+
+void reportErrorAndLog(FlutterErrorDetails details) {
+  // 上报错误和日志逻辑
+}
+
+FlutterErrorDetails makeDetails(Object obj, StackTrace stack) {
+  // 构建错误消息
+}
 
 void main() {
-  runApp(MyApp());
-}
+  FlutterError.onError = (FlutterErrorDetails details) {
+    reportErrorAndLog(details);
+  };
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
-  }
+  runZoned(() {
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+      return ErrorPage(
+          details.exception.toString() + "\n" + details.stack.toString(),
+          details);
+    };
+  }, onError: (Object obj, StackTrace stack) {
+    var details = makeDetails(obj, stack);
+    reportErrorAndLog(details);
+  });
 }
