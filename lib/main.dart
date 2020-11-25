@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:github_flutter/GSYTabBarWidget.dart';
 import 'pages/error_page.dart';
+import 'package:github_flutter/app.dart';
 
 void collectLog(String line) {
   // 收集日志
@@ -28,6 +29,7 @@ void main() {
           details.exception.toString() + "\n" + details.stack.toString(),
           details);
     };
+    runApp(FlutterReduxApp());
   }, onError: (Object obj, StackTrace stack) {
     var details = makeDetails(obj, stack);
     reportErrorAndLog(details);
