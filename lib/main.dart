@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:github_flutter/GSYTabBarWidget.dart';
 import 'pages/error_page.dart';
 import 'package:github_flutter/app.dart';
 
