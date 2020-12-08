@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /**
@@ -18,11 +17,7 @@ class _HomePageState extends State<HomePage> {
   // 不退出
   Future<bool> _dialogExitApp(BuildContext context) async {
     // 如果是android回到桌面
-    if (Platform.isAndroid) {
-      // AndroidIntent intent = AndroidIntent(
-      //   action: 'an'
-      // );
-    }
+    if (Platform.isAndroid) {}
   }
 
   Widget build(BuildContext context) {
