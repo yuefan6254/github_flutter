@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
  */
 
 class TrendPage extends StatefulWidget {
-  _TrendPageState createState() => _TrendPageState();
+  TrendPage({Key key}) : super(key: key);
+  @override
+  TrendPageState createState() => TrendPageState();
 }
 
-class _TrendPageState extends State<TrendPage> {
+class TrendPageState extends State<TrendPage> {
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Center(
         child: Text('趋势'),
       ),
     );

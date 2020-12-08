@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
  */
 
 class MyPage extends StatefulWidget {
-  _MyPageState createState() => _MyPageState();
+  MyPage({Key key}) : super(key: key);
+  @override
+  MyPageState createState() => MyPageState();
 }
 
-class _MyPageState extends State<MyPage> {
+class MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Center(
         child: Text('我的'),
       ),
     );

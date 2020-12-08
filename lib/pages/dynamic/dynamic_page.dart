@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
  */
 
 class DynamicPage extends StatefulWidget {
-  _DynamicPageState createState() => _DynamicPageState();
+  DynamicPage({Key key}) : super(key: key);
+  @override
+  DynamicPageState createState() => DynamicPageState();
 }
 
-class _DynamicPageState extends State<DynamicPage> {
+class DynamicPageState extends State<DynamicPage> {
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Center(
         child: Text('动态'),
       ),
     );
