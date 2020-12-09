@@ -7,6 +7,7 @@ import 'package:github_flutter/pages/trend/trend_page.dart';
 import 'package:github_flutter/pages/my_page.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/pages/home/home_drawer.dart';
+import 'package:github_flutter/widgets/gsy_title_bar.dart';
 
 /**
  * 主页
@@ -51,6 +52,11 @@ class _HomePageState extends State<HomePage> {
           return _dialogExitApp(context);
         },
         child: GSYTabBarWidget(
+          title: GSYTitleBar(
+            title: 'GSYGithubApp',
+            iconData: GSYICons.MAIN_SEARCH,
+            needRightLocalIcon: true,
+          ),
           drawer: HomeDrawer(),
           type: TabType.bottom,
           tabItems: tabItems,
