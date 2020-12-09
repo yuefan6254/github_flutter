@@ -8,10 +8,17 @@ class GSYTabBarWidget extends StatefulWidget {
   final TabType type;
   final List<Widget> tabViews;
   final List<Widget> tabItems;
+  final Widget drawer;
+  final Widget title;
 
-  GSYTabBarWidget(
-      {Key key, this.type = TabType.top, this.tabViews, this.tabItems})
-      : super(key: key);
+  GSYTabBarWidget({
+    Key key,
+    this.type = TabType.top,
+    this.tabViews,
+    this.tabItems,
+    this.drawer,
+    this.title,
+  }) : super(key: key);
 
   _GSYTabBarWidgetState createState() => _GSYTabBarWidgetState();
 }
@@ -19,8 +26,6 @@ class GSYTabBarWidget extends StatefulWidget {
 class _GSYTabBarWidgetState extends State<GSYTabBarWidget>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  PageController _pageController;
-  int _index = 0;
 
   @override
   void initState() {
@@ -37,22 +42,40 @@ class _GSYTabBarWidgetState extends State<GSYTabBarWidget>
   Widget build(BuildContext context) {
     // 顶部tab bar
     if (widget.type == TabType.top) {
-      return Scaffold();
+      return Scaffold(
+        appBar: AppBar(
+          title: widget.title,
+          bottom: TabBar(
+            tabs: widget.tabItems,
+            controller: _tabController,
+          ),
+        ),
+        body: TabBarView(
+          controller: _tabController,
+          children: widget.tabViews,
+        ),
+      );
     }
 
     // 底部tab bar
     return Scaffold(
-      body: TabBarView(
-        controller: _tabController,
-        children: widget.tabViews,
-      ),
-      bottomNavigationBar: Material(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: widget.tabItems,
+        drawer: widget.drawer,
+        appBar: AppBar(
+          title: widget.title,
         ),
-      ),
-    );
+        body: TabBarView(
+          controller: _tabController,
+          children: widget.tabViews,
+        ),
+        bottomNavigationBar: Material(
+          color: Theme.of(context).primaryColor,
+          child: SafeArea(
+            child: TabBar(
+              controller: _tabController,
+              tabs: widget.tabItems,
+            ),
+          ),
+        ));
   }
 }
 

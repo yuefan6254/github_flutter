@@ -6,6 +6,7 @@ import 'package:github_flutter/pages/dynamic/dynamic_page.dart';
 import 'package:github_flutter/pages/trend/trend_page.dart';
 import 'package:github_flutter/pages/my_page.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
+import 'package:github_flutter/pages/home/home_drawer.dart';
 
 /**
  * 主页
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
           return _dialogExitApp(context);
         },
         child: GSYTabBarWidget(
+          drawer: HomeDrawer(),
           type: TabType.bottom,
           tabItems: tabItems,
           tabViews: [
