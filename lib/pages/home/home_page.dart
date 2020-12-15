@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:github_flutter/common/utils/navigator_utils.dart';
 import 'package:github_flutter/widgets/gsy_tabbar_widget.dart';
 import 'package:github_flutter/pages/dynamic/dynamic_page.dart';
 import 'package:github_flutter/pages/trend/trend_page.dart';
@@ -53,10 +54,12 @@ class _HomePageState extends State<HomePage> {
         },
         child: GSYTabBarWidget(
           title: GSYTitleBar(
-            title: 'GSYGithubApp',
-            iconData: GSYICons.MAIN_SEARCH,
-            needRightLocalIcon: true,
-          ),
+              title: 'GSYGithubApp',
+              iconData: GSYICons.MAIN_SEARCH,
+              needRightLocalIcon: true,
+              onRightIconPressed: (centerPosition) {
+                NavigatorUtils.goSearch(context, centerPosition);
+              }),
           drawer: HomeDrawer(),
           type: TabType.bottom,
           tabItems: tabItems,
