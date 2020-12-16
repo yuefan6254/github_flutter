@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_flutter/model/User.dart';
 import 'package:github_flutter/redux/user_redux.dart';
+import 'package:redux/redux.dart';
 
 /**
  * Redux 全局State
@@ -23,11 +24,18 @@ class GSYState {
   // 是否登录
   bool login;
 
-  GSYState({this.userInfo, this.themeData, this.locale, this.platformLocale});
+  GSYState(
+      {this.userInfo,
+      this.themeData,
+      this.locale,
+      this.platformLocale,
+      this.login});
 }
 
-GSYState appRender(GSYState state, action) {
+GSYState appReducer(GSYState state, action) {
   return GSYState(
     userInfo: UserReducer(state.userInfo, action),
   );
 }
+
+final List<Middleware<GSYState>> middleware = [];

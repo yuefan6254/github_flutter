@@ -9,10 +9,12 @@ import 'package:rxdart/rxdart.dart';
  * 用户相关redux
  */
 
+// 通过typedReducer将UpdateUserAction和reducers关联
 final UserReducer = combineReducers<User>([
   TypedReducer<User, UpadateUserAction>(_updateLoaded),
 ]);
 
+// UpdateUserAction 发起请求，由_updateLoaded进行逻辑处理
 User _updateLoaded(User user, action) {
   user = action.userInfo;
   return user;
@@ -26,6 +28,7 @@ class UpadateUserAction {
 
 class FetchUserAction {}
 
+// 用户信息state 中间件
 class UserInfoMiddleware implements MiddlewareClass<GSYState> {
   void call(Store<GSYState> store, dynamic action, NextDispatcher next) {
     if (action is UpadateUserAction) {

@@ -1,4 +1,3 @@
-import 'package:github_flutter/pages/dynamic/dynamic_page.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'User.g.dart';
