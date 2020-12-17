@@ -24,9 +24,9 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> {
     // 初始化数据
     initialState: new GSYState(
         userInfo: User.empty(),
-        login: false,
+        login: true,
         themeData: CommonUtils.getThemeDtata(GSYColors.primarySwatch),
-        locale: Locale('zh', 'en')),
+        locale: Locale('zh', 'CH')),
   );
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> {
         store.state.platformLocale = WidgetsBinding.instance.window.locale;
         return MaterialApp(
           theme: store.state.themeData,
+          locale: store.state.locale,
           // 命名式路由
           routes: {
             WelcomePage.sName: (context) {

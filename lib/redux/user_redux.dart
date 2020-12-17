@@ -33,9 +33,9 @@ class UserInfoMiddleware implements MiddlewareClass<GSYState> {
   void call(Store<GSYState> store, dynamic action, NextDispatcher next) {
     if (action is UpadateUserAction) {
       print("*********** UserInfoMiddleware *********** ");
-
-      next(action);
     }
+
+    next(action);
   }
 }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_flutter/model/User.dart';
+import 'package:github_flutter/redux/middleware/epic_middleware.dart';
+import 'package:github_flutter/redux/theme_redux.dart';
 import 'package:github_flutter/redux/user_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -24,18 +26,17 @@ class GSYState {
   // 是否登录
   bool login;
 
-  GSYState(
-      {this.userInfo,
-      this.themeData,
-      this.locale,
-      this.platformLocale,
-      this.login});
+  GSYState({this.userInfo, this.themeData, this.locale, this.login});
 }
 
 GSYState appReducer(GSYState state, action) {
   return GSYState(
     userInfo: UserReducer(state.userInfo, action),
+    themeData: ThemeDataReducer(state.themeData, action),
   );
 }
 
-final List<Middleware<GSYState>> middleware = [];
+final List<Middleware<GSYState>> middleware = [
+  EpicMiddleware<GSYState>(userInfoEpic),
+  UserInfoMiddleware(),
+];
