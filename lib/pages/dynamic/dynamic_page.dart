@@ -30,20 +30,18 @@ class DynamicPageState extends State<DynamicPage> {
   }
 
   Widget build(BuildContext context) {
-    print(StoreProvider.of<GSYState>(context).state.themeData);
-
-    // return StoreBuilder<GSYState>(
-    //   builder: (context, store) {
-    return Scaffold(
-      body: Center(
-        child: Text('动态'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Text('点击'),
-        onPressed: () => changeThemeData(context),
-      ),
+    return StoreBuilder<GSYState>(
+      builder: (context, store) {
+        return Scaffold(
+          body: Center(
+            child: Text('动态'),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Text('点击'),
+            onPressed: () => changeThemeData(context),
+          ),
+        );
+      },
     );
-    // },
-    // );
   }
 }

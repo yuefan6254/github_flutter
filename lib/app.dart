@@ -42,9 +42,7 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> {
             GlobalWidgetsLocalizations.delegate,
             GSYLocalizationsDelege.delegate
           ],
-          localeResolutionCallback: (deviceLocale, supportedLocales) {
-            print('$deviceLocale, $supportedLocales');
-          },
+          localeResolutionCallback: (deviceLocale, supportedLocales) {},
           supportedLocales: [
             const Locale('en', 'US'),
             const Locale('zh', 'CN')
