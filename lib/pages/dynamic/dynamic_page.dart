@@ -15,14 +15,14 @@ class DynamicPage extends StatefulWidget {
 }
 
 class DynamicPageState extends State<DynamicPage> {
-  void changeThemeData(BuildContext context, Store store) {
+  void changeThemeData(BuildContext context) {
     print("我点击了");
     ThemeData themeData = ThemeData(primarySwatch: Colors.blue);
     print("$themeData");
-    print(store.state.login);
-    // StoreProvider.of<GSYState>(context)
-    //     .dispatch(RefreshThemeDataAction(themeData));
-    store.dispatch(new RefreshThemeDataAction(themeData));
+    // print(store.state.login);
+    StoreProvider.of<GSYState>(context)
+        .dispatch(RefreshThemeDataAction(themeData));
+    // store.dispatch(new RefreshThemeDataAction(themeData));
   }
 
   void initState() {
@@ -32,18 +32,18 @@ class DynamicPageState extends State<DynamicPage> {
   Widget build(BuildContext context) {
     print(StoreProvider.of<GSYState>(context).state.themeData);
 
-    return StoreBuilder<GSYState>(
-      builder: (context, store) {
-        return Scaffold(
-          body: Center(
-            child: Text('${store.state.themeData}'),
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: Text('点击'),
-            onPressed: () => changeThemeData(context, store),
-          ),
-        );
-      },
+    // return StoreBuilder<GSYState>(
+    //   builder: (context, store) {
+    return Scaffold(
+      body: Center(
+        child: Text('动态'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Text('点击'),
+        onPressed: () => changeThemeData(context),
+      ),
     );
+    // },
+    // );
   }
 }

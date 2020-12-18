@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:github_flutter/common/localization/localizations.dart';
 import 'package:github_flutter/common/utils/navigator_utils.dart';
 import 'package:github_flutter/widgets/gsy_tabbar_widget.dart';
 import 'package:github_flutter/pages/dynamic/dynamic_page.dart';
@@ -43,9 +44,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     List<Widget> tabItems = [
-      _renderTab(GSYICons.MAIN_DT, '动态'),
-      _renderTab(GSYICons.MAIN_QS, '趋势'),
-      _renderTab(GSYICons.MAIN_MY, '我的')
+      _renderTab(GSYICons.MAIN_DT, GSYLocalizations.i18n(context).home_dynamic),
+      _renderTab(GSYICons.MAIN_QS, GSYLocalizations.i18n(context).home_trend),
+      _renderTab(GSYICons.MAIN_MY, GSYLocalizations.i18n(context).home_my)
     ];
 
     return WillPopScope(

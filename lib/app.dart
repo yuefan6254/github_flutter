@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:github_flutter/common/localization/gsy_localizations_delegate.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/common/utils/common_utils.dart';
 import 'package:github_flutter/redux/gsy_state.dart';
@@ -26,7 +28,7 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> {
         userInfo: User.empty(),
         login: true,
         themeData: CommonUtils.getThemeDtata(GSYColors.primarySwatch),
-        locale: Locale('zh', 'CH')),
+        locale: null),
   );
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,21 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> {
       child: new StoreBuilder<GSYState>(builder: (context, store) {
         store.state.platformLocale = WidgetsBinding.instance.window.locale;
         return MaterialApp(
-          theme: store.state.themeData,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GSYLocalizationsDelege.delegate
+          ],
+          localeResolutionCallback: (deviceLocale, supportedLocales) {
+            print('$deviceLocale, $supportedLocales');
+          },
+          supportedLocales: [
+            const Locale('en', 'US'),
+            const Locale('zh', 'CN')
+          ],
           locale: store.state.locale,
+          theme: store.state.themeData,
+          // locale: store.state.locale,
           // 命名式路由
           routes: {
             WelcomePage.sName: (context) {
