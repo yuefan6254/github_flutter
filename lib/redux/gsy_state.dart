@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_flutter/model/User.dart';
+import 'package:github_flutter/redux/locale_redux.dart';
 import 'package:github_flutter/redux/middleware/epic_middleware.dart';
 import 'package:github_flutter/redux/theme_redux.dart';
 import 'package:github_flutter/redux/user_redux.dart';
@@ -33,6 +34,7 @@ GSYState appReducer(GSYState state, action) {
   return GSYState(
     userInfo: UserReducer(state.userInfo, action),
     themeData: ThemeDataReducer(state.themeData, action),
+    locale: LocaleReducer(state.locale, action),
   );
 }
 

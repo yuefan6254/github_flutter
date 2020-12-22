@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:github_flutter/common/localization/gsy_localizations_delegate.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/common/utils/common_utils.dart';
+import 'package:github_flutter/pages/login/login_page.dart';
 import 'package:github_flutter/redux/gsy_state.dart';
 import 'pages/welcome_page.dart';
 import 'pages/home/home_page.dart';
@@ -57,6 +58,9 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> {
             },
             HomePage.sName: (context) {
               return HomePage();
+            },
+            LoginPage.sName: (context) {
+              return LoginPage();
             }
           },
         );

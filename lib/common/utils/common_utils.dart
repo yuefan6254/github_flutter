@@ -1,4 +1,11 @@
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:github_flutter/redux/locale_redux.dart';
+import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
+import 'package:github_flutter/common/localization/localizations.dart';
+import 'package:github_flutter/common/utils/navigator_utils.dart';
+import 'package:github_flutter/redux/gsy_state.dart';
+import 'package:github_flutter/common/config/config.dart';
 
 /**
  * 通用逻辑
@@ -7,5 +14,70 @@ import 'package:flutter/material.dart';
 class CommonUtils {
   static getThemeDtata(Color color) {
     return ThemeData(primaryColor: color, platform: TargetPlatform.android);
+  }
+
+  // 切换语言
+  static changeLocale(Store<GSYState> store, int index) {
+    Locale locale = store.state.platformLocale;
+
+    if (Config.DEBUG) {
+      print(store.state.platformLocale);
+    }
+
+    switch (index) {
+      case 1:
+        locale = Locale('zh', 'CN');
+        break;
+      case 2:
+        locale = Locale('en', 'US');
+        break;
+    }
+
+    store.dispatch(RefreshLocaleAction(locale));
+  }
+
+  // 切换语言弹框
+  static showLanguageDialog(BuildContext context) {
+    List<String> list = [
+      GSYLocalizations.i18n(context).home_language_default,
+      GSYLocalizations.i18n(context).home_language_zh,
+      GSYLocalizations.i18n(context).home_language_en,
+    ];
+
+    showCommitOptionDialog(context, list, (index) {
+      changeLocale(StoreProvider.of<GSYState>(context), index);
+    }, height: 150.0);
+  }
+
+  // 列表选项 弹框
+  static Future<Null> showCommitOptionDialog(
+    BuildContext context,
+    List<String> commitMaps,
+    ValueChanged<int> onTap, {
+    width = 250.0,
+    height: 400.0,
+    List<Color> colorList,
+  }) {
+    return NavigatorUtils.showGSYDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: Container(
+                width: width,
+                height: height,
+                color: Colors.white,
+                child: ListView.builder(
+                    itemCount: commitMaps.length,
+                    itemBuilder: (context, index) {
+                      return RaisedButton(
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [Expanded(child: Text(commitMaps[index]))],
+                        ),
+                        onPressed: () => onTap(index),
+                      );
+                    })),
+          );
+        });
   }
 }
