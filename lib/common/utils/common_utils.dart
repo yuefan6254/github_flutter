@@ -1,5 +1,7 @@
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/redux/locale_redux.dart';
+import 'package:github_flutter/widgets/gsy_flex_button.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:github_flutter/common/localization/localizations.dart';
@@ -65,16 +67,23 @@ class CommonUtils {
             child: Container(
                 width: width,
                 height: height,
-                color: Colors.white,
+                padding: EdgeInsets.all(4.0),
+                margin: EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                    color: GSYColors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0))),
                 child: ListView.builder(
                     itemCount: commitMaps.length,
                     itemBuilder: (context, index) {
-                      return RaisedButton(
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          children: [Expanded(child: Text(commitMaps[index]))],
-                        ),
-                        onPressed: () => onTap(index),
+                      return GSYFlexButton(
+                        text: commitMaps[index],
+                        color: colorList != null
+                            ? colorList[index]
+                            : Theme.of(context).primaryColor,
+                        textColor: GSYColors.white,
+                        maxLines: 1,
+                        mainAixsAlignment: MainAxisAlignment.start,
+                        onPress: () => onTap(index),
                       );
                     })),
           );

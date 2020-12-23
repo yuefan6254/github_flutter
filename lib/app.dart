@@ -1,5 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:github_flutter/common/event/event_bus.dart';
+import 'package:github_flutter/common/event/http_error_event.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:github_flutter/common/localization/localizations.dart';
+import 'package:github_flutter/common/net/code.dart';
 import 'package:github_flutter/common/localization/gsy_localizations_delegate.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/common/utils/common_utils.dart';
@@ -65,6 +72,68 @@ class _FlutterReduxAppState extends State<FlutterReduxApp> {
           },
         );
       }),
+    );
+  }
+}
+
+mixin HttpErrorListener on State<FlutterReduxApp> {
+  StreamSubscription stream;
+  BuildContext _context;
+
+  @override
+  void initState() {
+    super.initState();
+    stream = eventBus
+        .on<HttpErrorEvent>()
+        .listen((event) => errorHandleFunction(event.code, event.message));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (stream != null) {
+      stream.cancel();
+      stream = null;
+    }
+  }
+
+  // 网络错误提醒
+  errorHandleFunction(int code, String message) {
+    switch (code) {
+      case Code.NETWORK_ERROR:
+        showToast(GSYLocalizations.i18n(context).network_error);
+        break;
+      case 401:
+        showToast(GSYLocalizations.i18n(context).network_error_401);
+        break;
+      case 403:
+        showToast(GSYLocalizations.i18n(context).network_error_403);
+        break;
+      case 404:
+        showToast(GSYLocalizations.i18n(context).network_error_404);
+        break;
+      case 422:
+        showToast(GSYLocalizations.i18n(context).network_error_422);
+        break;
+      case Code.NETWORK_TIMEOUT:
+        showToast(GSYLocalizations.i18n(context).network_error_timeout);
+        break;
+      case Code.GITHUB_API_REFUSED:
+        showToast(GSYLocalizations.i18n(context).github_refused);
+        break;
+      default:
+        showToast(
+            GSYLocalizations.i18n(context).network_error_unknown + " $message");
+        break;
+    }
+  }
+
+  // toast 提示框
+  showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      gravity: ToastGravity.CENTER,
+      toastLength: Toast.LENGTH_LONG,
     );
   }
 }
