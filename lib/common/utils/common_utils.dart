@@ -1,4 +1,5 @@
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/redux/locale_redux.dart';
 import 'package:github_flutter/widgets/gsy_flex_button.dart';
@@ -86,6 +87,42 @@ class CommonUtils {
                         onPress: () => onTap(index),
                       );
                     })),
+          );
+        });
+  }
+
+  // loading 弹框
+  static Future<Null> showLoadingDialog(BuildContext context) {
+    return NavigatorUtils.showGSYDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Material(
+            color: Colors.transparent,
+            child: WillPopScope(
+              onWillPop: () => Future.value(false),
+              child: Center(
+                child: Container(
+                  height: 200.0,
+                  width: 200.0,
+                  padding: EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                  child: Column(
+                    children: [
+                      SpinKitFadingCircle(
+                        color: Colors.white,
+                      ),
+                      Container(height: 10.0),
+                      Text(
+                        GSYLocalizations.i18n(context).loading_text,
+                        style: GSYConstant.normalTextWhite,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
           );
         });
   }
