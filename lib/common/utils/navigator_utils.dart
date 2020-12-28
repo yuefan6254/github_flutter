@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github_flutter/pages/home/home_page.dart';
 import 'package:github_flutter/pages/login/login_page.dart';
+import 'package:github_flutter/pages/login/login_webview.dart';
 import 'package:github_flutter/pages/search/search_page.dart';
 
 /**
@@ -60,5 +61,18 @@ class NavigatorUtils {
             ),
           );
         });
+  }
+
+  // 公共打开方式
+  static NavigatorRouter(BuildContext context, Widget widget) {
+    return Navigator.push(
+        context,
+        CupertinoPageRoute(
+            builder: (context) => pageContainer(widget, context)));
+  }
+
+  // 登录web页面
+  static Future goLoginWebView(BuildContext context, String url, String title) {
+    return NavigatorRouter(context, LoginWebView(url, title));
   }
 }

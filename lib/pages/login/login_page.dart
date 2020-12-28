@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:github_flutter/common/local/local_storage.dart';
 import 'package:github_flutter/common/localization/localizations.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/common/utils/common_utils.dart';
+import 'package:github_flutter/common/utils/navigator_utils.dart';
+import 'package:github_flutter/redux/gsy_state.dart';
+import 'package:github_flutter/redux/login_redux.dart';
 import 'package:github_flutter/widgets/gsy_flex_button.dart';
 import 'package:github_flutter/widgets/gsy_input_widget.dart';
 import 'package:github_flutter/widgets/animated_background.dart';
 import 'package:github_flutter/widgets/particle/particle_widget.dart';
 import 'package:github_flutter/common/config/config.dart';
+import 'package:github_flutter/common/net/address.dart';
 
 /**
  * 登录页
@@ -76,6 +81,7 @@ class _LoginPageState extends State<LoginPage> with LoginBloc {
                               color: Theme.of(context).primaryColor,
                               textColor: GSYColors.textWhite,
                               fontSize: 16,
+                              onPress: oauthIn,
                             ))
                           ],
                         )),
@@ -145,5 +151,17 @@ mixin LoginBloc on State<LoginPage> {
         msg: GSYLocalizations.i18n(context).Login_deprecated,
         gravity: ToastGravity.CENTER,
         toastLength: Toast.LENGTH_LONG);
+  }
+
+  oauthIn() async {
+    String code = await NavigatorUtils.goLoginWebView(context,
+        Address.getOauthUrl(), GSYLocalizations.i18n(context).oauth_text);
+
+    print("########### $code");
+
+    if (code != null && code.length > 0) {
+      print("########### 执行逻辑");
+      StoreProvider.of<GSYState>(context).dispatch(OAuthAction(context, code));
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:github_flutter/redux/locale_redux.dart';
 import 'package:github_flutter/redux/middleware/epic_middleware.dart';
 import 'package:github_flutter/redux/theme_redux.dart';
 import 'package:github_flutter/redux/user_redux.dart';
+import 'package:github_flutter/redux/login_redux.dart';
 import 'package:redux/redux.dart';
 
 /**
@@ -35,10 +36,12 @@ GSYState appReducer(GSYState state, action) {
     userInfo: UserReducer(state.userInfo, action),
     themeData: ThemeDataReducer(state.themeData, action),
     locale: LocaleReducer(state.locale, action),
+    login: LoginReducer(state.login, action),
   );
 }
 
 final List<Middleware<GSYState>> middleware = [
   EpicMiddleware<GSYState>(userInfoEpic),
+  EpicMiddleware(oauthEpic),
   UserInfoMiddleware(),
 ];

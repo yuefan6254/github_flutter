@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:github_flutter/common/dao/user_dao.dart';
 import 'package:github_flutter/common/utils/common_utils.dart';
 import 'package:github_flutter/redux/gsy_state.dart';
 import 'package:github_flutter/redux/middleware/epic_store.dart';
@@ -21,6 +22,7 @@ class OAuthAction {
 Stream<dynamic> oauthEpic(Stream<dynamic> actions, EpicStore<GSYState> store) {
   Stream _loginIn(OAuthAction action, EpicStore<GSYState> store) {
     CommonUtils.showLoadingDialog(action.context);
+    var res = UserDao.oauth(action.code, store);
     Navigator.pop(action.context);
   }
 

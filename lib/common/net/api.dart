@@ -23,6 +23,7 @@ class HttpManager {
   Future<ResultData> netFetch(
       url, params, Map<String, dynamic> header, Options option,
       {noTip = false}) async {
+    print("进入请求方法中");
     Map<String, dynamic> headers = HashMap();
     // 添加头部
     if (header != null) {
@@ -62,8 +63,12 @@ class HttpManager {
     try {
       response = await _dio.request(url, data: params, options: option);
     } on DioError catch (e) {
+      print("请求报错");
+      print(e.toString());
       return resultError(e);
     }
+
+    print("请求返回 $response");
 
     if (response.data is DioError) {
       return resultError(response.data);

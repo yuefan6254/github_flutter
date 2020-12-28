@@ -14,7 +14,7 @@ class TokenInterceptor extends InterceptorsWrapper {
   onRequest(RequestOptions options) async {
     // 请求头添加token
     if (_token == null) {
-      var authorizationCode = getAuthorization();
+      var authorizationCode = await getAuthorization();
       if (authorizationCode != null) {
         _token = authorizationCode;
         initClient(authorizationCode);
