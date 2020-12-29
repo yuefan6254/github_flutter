@@ -2,6 +2,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/redux/locale_redux.dart';
+import 'package:github_flutter/redux/theme_redux.dart';
 import 'package:github_flutter/widgets/gsy_flex_button.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ import 'package:github_flutter/common/config/config.dart';
  */
 
 class CommonUtils {
+  static Locale curLocale;
+
   static getThemeDtata(Color color) {
     return ThemeData(primaryColor: color, platform: TargetPlatform.android);
   }
@@ -125,5 +128,34 @@ class CommonUtils {
             ),
           );
         });
+  }
+
+  // 返回主题颜色列表
+  static List<Color> getThemeListColor() {
+    return [
+      GSYColors.primarySwatch,
+      Colors.brown,
+      Colors.blue,
+      Colors.teal,
+      Colors.amber,
+      Colors.blueGrey,
+      Colors.deepOrange
+    ];
+  }
+
+  // 获取主题
+  static getThemeData(Color color) {
+    return ThemeData(primarySwatch: color, platform: TargetPlatform.android);
+  }
+
+  // 更新store中的颜色主题
+  static pushTheme(Store store, int index) {
+    ThemeData themeData;
+    List<Color> colors = getThemeListColor();
+    themeData = getThemeData(colors[index]);
+
+    if (themeData != null) {
+      store.dispatch(RefreshThemeDataAction(themeData));
+    }
   }
 }

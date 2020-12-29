@@ -157,10 +157,7 @@ mixin LoginBloc on State<LoginPage> {
     String code = await NavigatorUtils.goLoginWebView(context,
         Address.getOauthUrl(), GSYLocalizations.i18n(context).oauth_text);
 
-    print("########### $code");
-
     if (code != null && code.length > 0) {
-      print("########### 执行逻辑");
       StoreProvider.of<GSYState>(context).dispatch(OAuthAction(context, code));
     }
   }

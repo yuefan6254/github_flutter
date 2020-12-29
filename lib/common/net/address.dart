@@ -19,4 +19,16 @@ class Address {
   static getMyUserInfo() {
     return "${host}user";
   }
+
+  // 用户信息
+  static getUserInfo(userName) {
+    return "${host}users/$userName";
+  }
+
+  // 用户的star
+  static userStar(userName, sort) {
+    sort ??= 'updated';
+
+    return "${host}users/$userName/starred?sort=$sort";
+  }
 }

@@ -77,8 +77,6 @@ class HttpManager {
       return resultError(response.data);
     }
 
-    print("response.data ${response.data}");
-    // return response.data;
     return response.data;
   }
 

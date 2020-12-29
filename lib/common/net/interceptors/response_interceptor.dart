@@ -24,8 +24,6 @@ class ResponseInterceptors extends InterceptorsWrapper {
           headers: response.headers);
     }
 
-    print(value);
-
     return value;
   }
 }

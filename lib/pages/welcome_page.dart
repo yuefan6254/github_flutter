@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:github_flutter/redux/gsy_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
@@ -31,17 +32,15 @@ class _WelcomePageState extends State<WelcomePage> {
     hadInit = true;
 
     Store<GSYState> store = StoreProvider.of(context);
-    Future.delayed(const Duration(seconds: 2, milliseconds: 500), () {
-      // UserDao.initUserInfo(store).then((res) {
-      //   if (res != null && res.result) {
-      //     NavigatorUtils.goHome(context);
-      //   } else {
-      //     NavigatorUtils.goLogin(context);
-      //   }
-      //   return true;
-      // });
-
-      NavigatorUtils.goLogin(context);
+    new Future.delayed(const Duration(seconds: 2, milliseconds: 500), () async {
+      UserDao.initUserInfo(store).then((res) {
+        if (res != null && res.result) {
+          NavigatorUtils.goHome(context);
+        } else {
+          NavigatorUtils.goLogin(context);
+        }
+        return true;
+      });
     });
   }
 
