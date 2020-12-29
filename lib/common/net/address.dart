@@ -14,4 +14,9 @@ class Address {
   static getOauthUrl() {
     return "https://github.com/login/oauth/authorize?client_id=${NetConfig.CLIENT_ID}&state=app&redirect_uri=gsygithubapp://authed";
   }
+
+  // 我的用户信息
+  static getMyUserInfo() {
+    return "${host}user";
+  }
 }

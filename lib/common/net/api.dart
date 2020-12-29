@@ -1,6 +1,10 @@
 import 'dart:collection';
 
 import 'package:dio/dio.dart';
+import 'package:github_flutter/common/net/interceptors/error_interceptor.dart';
+import 'package:github_flutter/common/net/interceptors/header_interceptor.dart';
+import 'package:github_flutter/common/net/interceptors/log_interceptor.dart';
+import 'package:github_flutter/common/net/interceptors/response_interceptor.dart';
 import 'package:github_flutter/common/net/interceptors/token_interceptor.dart';
 import 'package:github_flutter/common/net/result_data.dart';
 import 'package:github_flutter/common/net/code.dart';
@@ -16,14 +20,17 @@ class HttpManager {
 
   // 添加拦截器
   HttpManager() {
+    _dio.interceptors.add(HeaderInterceptors());
     _dio.interceptors.add(_tokenInterceptor);
+    _dio.interceptors.add(LogInterceptors());
+    _dio.interceptors.add(ErrorInterceptors(_dio));
+    _dio.interceptors.add(ResponseInterceptors());
   }
 
   // 网络请求 并对请求出错做处理
   Future<ResultData> netFetch(
       url, params, Map<String, dynamic> header, Options option,
       {noTip = false}) async {
-    print("进入请求方法中");
     Map<String, dynamic> headers = HashMap();
     // 添加头部
     if (header != null) {
@@ -63,17 +70,15 @@ class HttpManager {
     try {
       response = await _dio.request(url, data: params, options: option);
     } on DioError catch (e) {
-      print("请求报错");
-      print(e.toString());
       return resultError(e);
     }
-
-    print("请求返回 $response");
 
     if (response.data is DioError) {
       return resultError(response.data);
     }
 
+    print("response.data ${response.data}");
+    // return response.data;
     return response.data;
   }
 
