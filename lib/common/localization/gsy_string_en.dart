@@ -295,4 +295,6 @@ class GSYStringEn extends GSYStringBase {
   String search_sort = "sort";
   @override
   String search_language = "language";
+  @override
+  String tabbar_index_exceed = "The subscript set by the tabbar exceeds";
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:github_flutter/common/localization/localizations.dart';
 
 /**
  * 支持顶部和底部的TabBar控件
@@ -10,6 +12,7 @@ class GSYTabBarWidget extends StatefulWidget {
   final List<Widget> tabItems;
   final Widget drawer;
   final Widget title;
+  int initialIndex;
 
   GSYTabBarWidget({
     Key key,
@@ -18,6 +21,7 @@ class GSYTabBarWidget extends StatefulWidget {
     this.tabItems,
     this.drawer,
     this.title,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   _GSYTabBarWidgetState createState() => _GSYTabBarWidgetState();
@@ -30,7 +34,23 @@ class _GSYTabBarWidgetState extends State<GSYTabBarWidget>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: widget.tabItems.length, vsync: this);
+
+    if (widget.initialIndex >= widget?.tabItems?.length) {
+      setState(() {
+        widget.initialIndex = 0;
+      });
+
+      Fluttertoast.showToast(
+        msg: GSYLocalizations.i18n(context).tabbar_index_exceed,
+        gravity: ToastGravity.CENTER,
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
+
+    _tabController = TabController(
+        length: widget.tabItems.length,
+        vsync: this,
+        initialIndex: widget.initialIndex);
   }
 
   @override

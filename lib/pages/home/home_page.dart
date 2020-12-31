@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
           drawer: HomeDrawer(),
           type: TabType.bottom,
           tabItems: tabItems,
+          initialIndex: tabItems.length - 1,
           tabViews: [
             DynamicPage(key: dynamicKey),
             TrendPage(key: trendKey),

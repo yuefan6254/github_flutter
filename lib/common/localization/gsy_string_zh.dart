@@ -294,4 +294,6 @@ class GSYStringZh extends GSYStringBase {
   String search_sort = "排序";
   @override
   String search_language = "语言";
+  @override
+  String tabbar_index_exceed = "tabbar 设置的下标超出";
 }
