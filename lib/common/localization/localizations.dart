@@ -25,6 +25,10 @@ class GSYLocalizations {
     return _localizedValues['en'];
   }
 
+  static GSYLocalizations of(BuildContext context) {
+    return Localizations.of(context, GSYLocalizations);
+  }
+
   static GSYStringBase i18n(BuildContext context) {
     return (Localizations.of(context, GSYLocalizations) as GSYLocalizations)
         .currentLocalized;
