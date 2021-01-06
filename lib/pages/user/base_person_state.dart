@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:github_flutter/model/User.dart';
 import 'package:github_flutter/model/UserOrg.dart';
-import 'package:github_flutter/widgets/pull/nested/gsy_sliver_header_delegate.dart';
+import 'package:github_flutter/widgets/pull/gsy_sliver_header_delegate.dart';
 import 'package:github_flutter/pages/user/widget/user_header.dart';
+import 'package:github_flutter/widgets/state/gsy_list_state.dart';
 import 'package:provider/provider.dart';
 
 /**
@@ -11,7 +12,10 @@ import 'package:provider/provider.dart';
  */
 
 abstract class BasePersonState<T extends StatefulWidget> extends State<T>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin<T> {
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<T>,
+        GSYListState<T> {
   final List<UserOrg> orgList = List();
   final HonorModel honorModel = HonorModel();
 
@@ -114,17 +118,6 @@ abstract class BasePersonState<T extends StatefulWidget> extends State<T>
           );
         },
       )),
-
-      SliverFixedExtentList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-          return Container(
-            alignment: Alignment.center,
-            color: Colors.lightBlue[100 * (index % 9)],
-            child: Text('list item $index'),
-          );
-        }, childCount: 50),
-        itemExtent: 50.0,
-      ),
     ];
   }
 }

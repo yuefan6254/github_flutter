@@ -166,7 +166,7 @@ class UserHeaderItem extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _renderProfilePicture(),
+                // _renderProfilePicture(),
                 Padding(padding: EdgeInsets.all(10.0)),
                 _renderUserInfo(context),
               ],

@@ -22,19 +22,19 @@ class MyPageState extends BasePersonState<MyPage> {
   @override
   bool get wantKeepAlive => true;
 
+  @override
+  void initState() {
+    super.initState();
+    pullLoadWidgetControl.needLoadMore.value = true;
+  }
+
   Widget build(BuildContext context) {
     super.build(context);
     return StoreBuilder<GSYState>(
       builder: (context, store) {
-        // return Scaffold(
-        //   body: CustomScrollView(
-        //     slivers: sliverBuilder(context, false, store.state.userInfo,
-        //         notifyColor, beStaredCount, () {}),
-        //   ),
-        // );
-
         return GSYPullLoadWidget(
-          onRefresh: () {},
+          control: pullLoadWidgetControl,
+          onRefresh: handleRefresh,
           headerSliverBuilder: (context, _) {
             return sliverBuilder(context, false, store.state.userInfo,
                 notifyColor, beStaredCount, () {});
