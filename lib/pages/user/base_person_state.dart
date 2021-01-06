@@ -95,26 +95,25 @@ abstract class BasePersonState<T extends StatefulWidget> extends State<T>
 
       // 提交图表
       SliverPersistentHeader(
-          pinned: true,
-          floating: true,
           delegate: GSYSliverHeaderDelegate(
-            minHeight: chartSize,
-            maxHeight: chartSize,
-            snapConfig: FloatingHeaderSnapConfiguration(
-              curve: Curves.bounceInOut,
-              duration: Duration(milliseconds: 10),
+        minHeight: chartSize,
+        maxHeight: chartSize,
+        snapConfig: FloatingHeaderSnapConfiguration(
+          curve: Curves.bounceInOut,
+          duration: Duration(milliseconds: 10),
+        ),
+        vSyncs: this,
+        changeSize: true,
+        builder:
+            (BuildContext context, double shrinkOffset, bool overlapsContent) {
+          return SizedBox.expand(
+            child: Container(
+              height: chartSize,
+              child: UserHeaderChart(userInfo),
             ),
-            vSyncs: this,
-            changeSize: true,
-            builder: (BuildContext context, double shrinkOffset,
-                bool overlapsContent) {
-              return SizedBox.expand(
-                child: Container(
-                  height: chartSize,
-                ),
-              );
-            },
-          )),
+          );
+        },
+      )),
 
       SliverFixedExtentList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {

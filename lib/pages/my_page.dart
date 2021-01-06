@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/pages/user/base_person_state.dart';
 import 'package:github_flutter/redux/gsy_state.dart';
+import 'package:github_flutter/widgets/pull/gsy_pull_load_widget.dart';
 
 /**
  * 我的 tab页
@@ -25,11 +26,19 @@ class MyPageState extends BasePersonState<MyPage> {
     super.build(context);
     return StoreBuilder<GSYState>(
       builder: (context, store) {
-        return Scaffold(
-          body: CustomScrollView(
-            slivers: sliverBuilder(context, false, store.state.userInfo,
-                notifyColor, beStaredCount, () {}),
-          ),
+        // return Scaffold(
+        //   body: CustomScrollView(
+        //     slivers: sliverBuilder(context, false, store.state.userInfo,
+        //         notifyColor, beStaredCount, () {}),
+        //   ),
+        // );
+
+        return GSYPullLoadWidget(
+          onRefresh: () {},
+          headerSliverBuilder: (context, _) {
+            return sliverBuilder(context, false, store.state.userInfo,
+                notifyColor, beStaredCount, () {});
+          },
         );
       },
     );

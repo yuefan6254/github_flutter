@@ -10,6 +10,7 @@ import 'package:github_flutter/common/localization/localizations.dart';
 import 'package:github_flutter/common/utils/navigator_utils.dart';
 import 'package:github_flutter/redux/gsy_state.dart';
 import 'package:github_flutter/common/config/config.dart';
+import 'package:github_flutter/common/net/address.dart';
 
 /**
  * 通用逻辑
@@ -167,5 +168,13 @@ class CommonUtils {
       return date.toString();
     }
     return date.toString().substring(0, 10);
+  }
+
+  // 个人提交记录图表
+  static getUserChartAddress(String userName) {
+    return Address.graphicHost +
+        GSYColors.primaryValueString.replaceAll("#", "") +
+        "/" +
+        userName;
   }
 }

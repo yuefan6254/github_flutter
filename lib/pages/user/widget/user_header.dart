@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/cupertino.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:github_flutter/common/localization/localizations.dart';
 import 'package:github_flutter/common/utils/common_utils.dart';
 import 'package:github_flutter/model/User.dart';
@@ -8,7 +11,7 @@ import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/widgets/gsy_icon_text.dart';
 
 /**
- * 用户详情头部
+ * 用户详情 widget
  */
 
 class UserHeaderItem extends StatelessWidget {
@@ -256,6 +259,80 @@ class UserHeaderBottom extends StatelessWidget {
                 beStaredCount, () {})
           ],
         ),
+      ),
+    );
+  }
+}
+
+/**
+ * 用户提交图表
+ */
+
+class UserHeaderChart extends StatelessWidget {
+  final User userInfo;
+
+  UserHeaderChart(this.userInfo);
+
+  // 标题
+  _renderTitle(context) {
+    return Container(
+      child: Text(
+        (userInfo.type == 'Organization')
+            ? GSYLocalizations.i18n(context).user_dynamic_group
+            : GSYLocalizations.i18n(context).user_dynamic_title,
+        style: GSYConstant.normalTextBold,
+        overflow: TextOverflow.ellipsis,
+      ),
+      margin: EdgeInsets.only(top: 15, bottom: 15, left: 12),
+      alignment: Alignment.topLeft,
+    );
+  }
+
+  // 提交记录图表
+  _renderChart(context) {
+    if (userInfo.login != null && userInfo.type == 'Organization') {
+      return Container();
+    }
+
+    double height = 140.0;
+    double width = 3 * MediaQuery.of(context).size.width / 2;
+
+    return Card(
+      margin: EdgeInsets.only(top: 0, right: 10, bottom: 0, left: 10),
+      color: GSYColors.white,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          height: height,
+          width: width,
+          padding: EdgeInsets.only(right: 10.0, left: 10.0),
+          child: SvgPicture.network(
+            CommonUtils.getUserChartAddress(userInfo.login),
+            width: width,
+            height: height - 10,
+            allowDrawingOutsideViewBox: true,
+            placeholderBuilder: (BuildContext context) => Container(
+              height: height,
+              width: width,
+              child: Center(
+                child: SpinKitRipple(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          _renderTitle(context),
+          _renderChart(context),
+        ],
       ),
     );
   }
