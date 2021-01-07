@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:github_flutter/common/style/gsy_style.dart';
 import 'package:github_flutter/model/User.dart';
 import 'package:github_flutter/model/SearchUserQL.dart';
 import 'package:github_flutter/model/UserOrg.dart';
+import 'package:github_flutter/redux/gsy_state.dart';
+import 'package:github_flutter/widgets/gsy_card_item.dart';
 
 /**
  * 用户item
@@ -17,7 +21,27 @@ class UserItem extends StatelessWidget {
       : super();
 
   @override
-  Widget build(BuildContext context) {}
+  Widget build(BuildContext context) {
+    var me = StoreProvider.of<GSYState>(context).state.userInfo;
+
+    Widget userImage = IconButton(
+      onPressed: null,
+      padding: EdgeInsets.only(top: 0.0, right: 0.0, bottom: 0.0, left: 0.0),
+      icon: ClipOval(
+        child: FadeInImage.assetNetwork(
+          placeholder: GSYICons.DEFAULT_USER_ICON,
+          fit: BoxFit.fitWidth,
+          image: userItemViewModel.userPic,
+          width: 40.0,
+          height: 40.0,
+        ),
+      ),
+    );
+
+    return Container(
+      child: GSYCardItem(),
+    );
+  }
 }
 
 class UserItemViewModel {

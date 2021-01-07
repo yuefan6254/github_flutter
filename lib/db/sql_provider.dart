@@ -21,11 +21,15 @@ abstract class BaseDBProvider {
 
   @mustCallSuper
   prepare(name, String createSql) async {
-    isTableExits = await SqlManager.isTableExits(name);
+    try {
+      isTableExits = await SqlManager.isTableExits(name);
 
-    if (!isTableExits) {
-      Database db = await SqlManager.getCurrentDatabase();
-      return await db.execute(createSql);
+      if (!isTableExits) {
+        Database db = await SqlManager.getCurrentDatabase();
+        return await db.execute(createSql);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

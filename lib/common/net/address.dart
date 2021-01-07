@@ -1,3 +1,4 @@
+import 'package:github_flutter/common/config/config.dart';
 import 'package:github_flutter/common/config/ignoreConfig.dart';
 
 /**
@@ -30,5 +31,33 @@ class Address {
     sort ??= 'updated';
 
     return "${host}users/$userName/starred?sort=$sort";
+  }
+
+  ///获取用户组织
+  static getUserOrgs(userName) {
+    return "${host}users/$userName/orgs";
+  }
+
+  ///处理分页参数
+  static getPageParams(tab, page, [pageSize = Config.PAGE_SIZE]) {
+    if (page != null) {
+      if (pageSize != null) {
+        return "${tab}page=$page&per_page=$pageSize";
+      } else {
+        return "${tab}page=$page";
+      }
+    } else {
+      return "";
+    }
+  }
+
+  ///用户收到的事件信息 get
+  static getEventReceived(userName) {
+    return "${host}users/$userName/received_events";
+  }
+
+  ///用户相关的事件信息 get
+  static getEvent(userName) {
+    return "${host}users/$userName/events";
   }
 }

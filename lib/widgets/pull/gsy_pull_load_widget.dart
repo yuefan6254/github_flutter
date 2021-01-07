@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:github_flutter/common/localization/localizations.dart';
+import 'package:github_flutter/common/style/gsy_style.dart';
 
 /**
  * 通用上滑加载，下拉刷新组件
@@ -41,28 +42,6 @@ class GSYPullLoadWidget extends StatefulWidget {
 }
 
 class _GSYPullLoadWidgetState extends State<GSYPullLoadWidget> {
-  _getItem(int index) {
-    print(index);
-
-    // if (index == 49) {
-    //   return _buildProgressIndicator();
-    // }
-
-    return Container(
-      alignment: Alignment.center,
-      color: Colors.lightBlue[100 * (index % 9)],
-      child: Text('list item $index'),
-      height: 130,
-    );
-  }
-
-  Future<Null> onRefresh() async {
-    print('立即执行下拉刷新');
-    await Future.delayed(Duration(seconds: 1), () {
-      print('下拉刷新');
-    });
-  }
-
   // 上拉加载更多
   Widget _buildProgressIndicator() {
     Widget bottomWidget = (widget.control.needLoadMore.value)
@@ -94,31 +73,77 @@ class _GSYPullLoadWidgetState extends State<GSYPullLoadWidget> {
     );
   }
 
+  // 空页面
+  Widget _buildEmpty() {
+    return Container(
+      height: MediaQuery.of(context).size.height - 100,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // FlatButton(
+          //   onPressed: () {},
+          //   child: Image(
+          //     image: AssetImage(GSYICons.DEFAULT_USER_ICON),
+          //     width: 70,
+          //     height: 70,
+          //   ),
+          // ),
+          Container(
+            child: Text(
+              GSYLocalizations.i18n(context).app_empty,
+              style: GSYConstant.normalText,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _getListCount() {
+    if (widget.control.dataList.length == 0) {
+      return 1;
+    }
+
+    return widget.control.dataList.length + 1;
+  }
+
+  _getItem(int index) {
+    if (widget.control.dataList.length == 0) {
+      return _buildEmpty();
+    }
+
+    if (index == widget.control.dataList.length) {
+      return _buildProgressIndicator();
+    }
+
+    return widget.itemBuilder(context, index);
+  }
+
   Widget build(BuildContext context) {
     return RefreshIndicator(
       notificationPredicate: (_) => true,
       key: widget.refreshKey,
-      onRefresh: onRefresh,
+      onRefresh: widget.onRefresh,
       child: NestedScrollView(
         controller: widget.scrollController,
         physics: BouncingScrollPhysics(),
         headerSliverBuilder: widget.headerSliverBuilder,
         body: NotificationListener(
+            onNotification: (ScrollNotification p) {
+              if (p.metrics.pixels >= p.metrics.maxScrollExtent) {
+                if (widget.control.needLoadMore.value) {
+                  widget.onLoadMore.call();
+                }
+              }
+              return false;
+            },
             child: ListView.builder(
-          itemBuilder: (_, index) {
-            return _getItem(index);
-          },
-          itemCount: 50,
-        )),
+              itemBuilder: (_, index) {
+                return _getItem(index);
+              },
+              itemCount: _getListCount(),
+            )),
       ),
-
-      // child: ListView.builder(
-      //   physics: BouncingScrollPhysics(),
-      //   itemBuilder: (_, index) {
-      //     return _getItem(index);
-      //   },
-      //   itemCount: 6,
-      // ),
     );
   }
 }
